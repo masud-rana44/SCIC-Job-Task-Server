@@ -28,7 +28,7 @@ async function run() {
     const taskCollection = client.db("taskDB").collection("tasks");
 
     // Create a single new task
-    app.post("/addTask", async (req, res) => {
+    app.post("/tasks", async (req, res) => {
       const task = req.body;
       const result = await taskCollection.insertOne(task);
       console.log(
@@ -52,7 +52,7 @@ async function run() {
     });
 
     // Update a single task
-    app.put("/update/:id", async (req, res) => {
+    app.patch("/tasks/:id", async (req, res) => {
       const id = req.params.id;
       const updatedTask = req.body;
       const filter = { _id: new ObjectId(id) };
@@ -72,8 +72,9 @@ async function run() {
     });
 
     // Delete a single task
-    app.delete("/delete/:id", async (req, res) => {
+    app.delete("/tasks/:id", async (req, res) => {
       const id = req.params.id;
+      console.log(id);
       const query = { _id: new ObjectId(id) };
       const result = await taskCollection.deleteOne(query);
       console.log(`${result.deletedCount} document(s) was/were deleted.`);
